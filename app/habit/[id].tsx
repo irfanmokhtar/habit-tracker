@@ -201,7 +201,8 @@ const styles = StyleSheet.create({
     },
     header: {
         alignItems: 'center',
-        paddingVertical: Spacing.lg,
+        paddingTop: 0,
+        paddingBottom: Spacing.md,
         paddingHorizontal: Spacing.md,
     },
     emojiLarge: {
@@ -212,6 +213,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: Spacing.md,
+        marginTop: -40,
     },
     emojiText: {
         fontSize: 40,

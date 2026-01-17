@@ -5,6 +5,7 @@ import {
     StyleSheet,
     TouchableOpacity,
     Dimensions,
+    ScrollView,
 } from 'react-native';
 import { Colors, Spacing, BorderRadius, Typography } from '../constants/Colors';
 import { addDays, format, parseISO, isBefore, isAfter, isSameDay } from 'date-fns';
@@ -91,7 +92,11 @@ export function Calendar({ startDate, completedDays, onDayPress }: CalendarProps
                 ))}
             </View>
 
-            <View style={styles.gridContainer}>
+            <ScrollView
+                style={styles.scrollView}
+                contentContainerStyle={styles.scrollContent}
+                showsVerticalScrollIndicator={false}
+            >
                 {weeks.map((week, weekIndex) => (
                     <View key={weekIndex} style={styles.week}>
                         {week.map((day, dayIndex) => {
@@ -141,7 +146,7 @@ export function Calendar({ startDate, completedDays, onDayPress }: CalendarProps
                         })}
                     </View>
                 ))}
-            </View>
+            </ScrollView>
 
             <View style={styles.footer}>
                 <Text style={styles.footerText}>
@@ -200,7 +205,10 @@ const styles = StyleSheet.create({
         color: Colors.text.muted,
         fontWeight: '600',
     },
-    gridContainer: {
+    scrollView: {
+        flex: 1,
+    },
+    scrollContent: {
         paddingBottom: Spacing.md,
     },
     week: {
@@ -229,8 +237,8 @@ const styles = StyleSheet.create({
         borderColor: Colors.calendar.today,
     },
     futureCell: {
-        backgroundColor: Colors.calendar.future,
-        opacity: 0.5,
+        backgroundColor: Colors.calendar.future, // Now a visible gray
+        opacity: 0.3, // Lower opacity to distinguish from past/missed
     },
     missedCell: {
         backgroundColor: Colors.calendar.inactive,
@@ -248,7 +256,7 @@ const styles = StyleSheet.create({
         color: Colors.calendar.today,
     },
     futureText: {
-        color: Colors.text.secondary,
+        color: Colors.text.dark, // Dark text for better visibility on gray
     },
     dayLabel: {
         fontSize: 10,
@@ -260,7 +268,7 @@ const styles = StyleSheet.create({
         opacity: 0.7,
     },
     futureLabel: {
-        color: Colors.text.secondary,
+        color: Colors.text.dark, // Dark text
         opacity: 0.5,
     },
     checkmark: {

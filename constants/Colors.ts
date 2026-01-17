@@ -36,7 +36,7 @@ export const Colors = {
     calendar: {
         completed: '#4ADE80',
         active: '#F97316',
-        future: 'rgba(255, 255, 255, 0.2)',
+        future: '#9CA3AF', // Light gray, more visible than transparent white
         inactive: '#374151',
         today: '#F97316',
     },
