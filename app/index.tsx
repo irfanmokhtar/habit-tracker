@@ -11,7 +11,9 @@ import {
     ActivityIndicator,
     KeyboardAvoidingView,
     Platform,
+    Switch,
 } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { format } from 'date-fns';
@@ -27,12 +29,19 @@ export default function HomeScreen() {
     const [modalVisible, setModalVisible] = useState(false);
     const [newHabitName, setNewHabitName] = useState('');
     const [selectedEmoji, setSelectedEmoji] = useState('💪');
+    const [enableReminder, setEnableReminder] = useState(false);
+    const [reminderTime, setReminderTime] = useState(new Date());
 
     const handleAddHabit = async () => {
         if (newHabitName.trim()) {
-            await addHabit(newHabitName.trim(), selectedEmoji);
+            await addHabit(
+                newHabitName.trim(),
+                selectedEmoji,
+                enableReminder ? reminderTime : undefined
+            );
             setNewHabitName('');
             setSelectedEmoji('💪');
+            setEnableReminder(false);
             setModalVisible(false);
         }
     };
@@ -172,6 +181,34 @@ export default function HomeScreen() {
                             onChangeText={setNewHabitName}
                             autoFocus
                         />
+
+                        <View style={styles.reminderContainer}>
+                            <View style={styles.reminderHeader}>
+                                <Text style={styles.modalLabel}>Daily Reminder</Text>
+                                <Switch
+                                    value={enableReminder}
+                                    onValueChange={setEnableReminder}
+                                    trackColor={{ false: Colors.card.dark, true: Colors.accent.green }}
+                                    thumbColor={Platform.OS === 'ios' ? '#fff' : Colors.text.primary}
+                                />
+                            </View>
+
+                            {enableReminder && (
+                                <View style={styles.timePickerContainer}>
+                                    <DateTimePicker
+                                        value={reminderTime}
+                                        mode="time"
+                                        display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                                        onChange={(event, selectedDate) => {
+                                            if (selectedDate) setReminderTime(selectedDate);
+                                        }}
+                                        textColor={Colors.text.primary}
+                                        themeVariant="dark"
+                                        style={styles.timePicker}
+                                    />
+                                </View>
+                            )}
+                        </View>
 
                         <TouchableOpacity
                             style={[
@@ -392,5 +429,24 @@ const styles = StyleSheet.create({
         ...Typography.caption,
         color: Colors.text.secondary,
         textAlign: 'center',
+    },
+    reminderContainer: {
+        marginBottom: Spacing.lg,
+    },
+    reminderHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: Spacing.sm,
+    },
+    timePickerContainer: {
+        alignItems: 'center',
+        backgroundColor: Colors.card.dark,
+        borderRadius: BorderRadius.lg,
+        padding: Spacing.sm,
+    },
+    timePicker: {
+        height: 120,
+        width: '100%',
     },
 });

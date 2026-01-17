@@ -15,8 +15,9 @@ import { Colors, Spacing, BorderRadius, Typography } from '../../constants/Color
 import { Calendar } from '../../components/Calendar';
 import { storage } from '../../utils/storage';
 import { Habit } from '../../types/habit';
+import { Config } from '../../constants/Config';
 
-const TOTAL_DAYS = 40;
+const TOTAL_DAYS = Config.TOTAL_DAYS;
 
 export default function HabitDetailScreen() {
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -113,6 +114,13 @@ export default function HabitDetailScreen() {
                 <Text style={styles.habitSubtitle}>
                     Day {currentDay} of {TOTAL_DAYS} • {completedCount} completed
                 </Text>
+                {habit.reminderTime && (
+                    <View style={styles.reminderBadge}>
+                        <Text style={styles.reminderText}>
+                            🔔 {format(parseISO(habit.reminderTime), 'h:mm a')}
+                        </Text>
+                    </View>
+                )}
             </View>
 
             {/* Progress Stats */}
@@ -227,6 +235,19 @@ const styles = StyleSheet.create({
     habitSubtitle: {
         ...Typography.body,
         color: Colors.text.secondary,
+        marginBottom: Spacing.sm,
+    },
+    reminderBadge: {
+        backgroundColor: Colors.card.dark,
+        paddingHorizontal: Spacing.md,
+        paddingVertical: Spacing.xs,
+        borderRadius: BorderRadius.full,
+        marginTop: Spacing.xs,
+    },
+    reminderText: {
+        ...Typography.caption,
+        color: Colors.accent.orange,
+        fontWeight: '600',
     },
     statsRow: {
         flexDirection: 'row',

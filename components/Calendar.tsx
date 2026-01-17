@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { Colors, Spacing, BorderRadius, Typography } from '../constants/Colors';
 import { addDays, format, parseISO, isBefore, isAfter, isSameDay } from 'date-fns';
+import { Config } from '../constants/Config';
 
 interface CalendarProps {
     startDate: string;
@@ -16,9 +17,9 @@ interface CalendarProps {
     onDayPress: (dateStr: string) => void;
 }
 
-const TOTAL_DAYS = 40;
 const DAYS_OF_WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const SCREEN_WIDTH = Dimensions.get('window').width;
+const TOTAL_DAYS = Config.TOTAL_DAYS;
 // Calculate cell width based on screen width minus padding
 // Screen width - (outer padding * 2) - (cell margin * 2 * 7)
 const CONTAINER_PADDING = Spacing.md;

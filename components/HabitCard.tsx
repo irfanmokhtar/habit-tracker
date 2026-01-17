@@ -9,13 +9,14 @@ import {
 import { Colors, Spacing, BorderRadius, Typography } from '../constants/Colors';
 import { Habit } from '../types/habit';
 import { differenceInDays, parseISO } from 'date-fns';
+import { Config } from '../constants/Config';
+
+const TOTAL_DAYS = Config.TOTAL_DAYS;
 
 interface HabitCardProps {
     habit: Habit;
     onPress: () => void;
 }
-
-const TOTAL_DAYS = 40;
 
 export function HabitCard({ habit, onPress }: HabitCardProps) {
     const completedCount = habit.completedDays.length;

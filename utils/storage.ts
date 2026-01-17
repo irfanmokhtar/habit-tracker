@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Habit } from '../types/habit';
+import { Config } from '../constants/Config';
 
-const HABITS_KEY = '@habit_tracker_habits';
+const HABITS_KEY = Config.STORAGE_KEYS.HABITS;
 
 export const storage = {
     async getHabits(): Promise<Habit[]> {
